@@ -24,7 +24,7 @@
         function getWeather() {
             const link = "https://api.openweathermap.org/data/2.5/weather?q=delhi&appid=3fd37a26281a856362103ad9ff70bc1e";
             
-            // Optional loading text
+            
             document.getElementById('Weather').innerHTML = "Loading...";
             
             const request = new XMLHttpRequest();
@@ -48,7 +48,7 @@
             request.send();
         }
 
-        // Load data on page load
+        
         getWeather();
     </script>
 </body>
