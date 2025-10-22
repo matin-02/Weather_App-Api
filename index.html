@@ -4,44 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
-    <link rel="stylesheet"  href="style.css">
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <div class="container">
         <div class="card">
-            <h2><i class="fa fa-map-marker"></i><span id="location"></span></h2>
+            <h2><i class="fa fa-map-marker"></i> <span id="location"></span></h2>
             <h6 id="Weather"></h6>
-            <h4><span id="temp"></span><sup>o</sup>C</h4>
-            <img src="" id="icon">
-            <button onclick="window.location.reload()" class="refresh"><i class="fa fa-refresh"></i></button>
+            <h4><span id="temp"></span><sup>°</sup>C</h4>
+            <img src="" id="icon" alt="Weather Icon">
+            <button onclick="getWeather()" class="refresh"><i class="fa fa-refresh"></i></button>
         </div>
-
     </div>
-    
-</body>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script>
-    link = "https://api.openweathermap.org/data/2.5/weather?q=delhi&appid=3fd37a26281a856362103ad9ff70bc1e"
-    var request = new XMLHttpRequest();
-    request.open('GET',link,true);
-    request.onload = function(){
-        var obj = JSON.parse(this.response)
-       
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        function getWeather() {
+            const link = "https://api.openweathermap.org/data/2.5/weather?q=delhi&appid=3fd37a26281a856362103ad9ff70bc1e";
+            
+            
+            
+            const request = new XMLHttpRequest();
+            request.open('GET', link, true);
+            request.onload = function () {
+                if (request.status >= 200 && request.status < 400) {
+                    const obj = JSON.parse(this.response);
+                    document.getElementById('Weather').innerHTML = obj.weather[0].description;
+                    document.getElementById('location').innerHTML = obj.name;
+                    document.getElementById('temp').innerHTML = Math.round(obj.main.temp - 273.15);
+                    document.getElementById('icon').src = "https://openweathermap.org/img/w/" + obj.weather[0].icon + ".png";
+                } else {
+                    document.getElementById('Weather').innerHTML = "Error loading data";
+                }
+            };
 
-    document.getElementById('Weather').innerHTML = obj.weather[0].description;
-    document.getElementById('location').innerHTML = obj.name;
-    document.getElementById('temp').innerHTML = Math.round(obj.main.temp - 273.15);
-    document.getElementById('icon').src = "https://openweathermap.org/img/w/" + obj.weather[0].icon + ".png";
-    }
-    if(request.status >= 200 && request.status < 400){
-        var temp = obj.main.temp;
-    }
-    else{
+            request.onerror = function () {
+                document.getElementById('Weather').innerHTML = "Network error";
+            };
+
+            request.send();
+        }
+
         
-    }
-    request.send();
-</script>
+        getWeather();
+    </script>
+</body>
 </html>
