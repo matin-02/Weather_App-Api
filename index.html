@@ -15,7 +15,7 @@
             <h6 id="Weather"></h6>
             <h4><span id="temp"></span><sup>o</sup>C</h4>
             <img src="" id="icon">
-            <button onclick="window.location.reload()" class="refresh"><i class="fa fa-refresh"></i></button>
+            <button onclick="request.open('GET',link,true);request.send()" class="refresh"><i class="fa fa-refresh"></i></button>
         </div>
 
     </div>
